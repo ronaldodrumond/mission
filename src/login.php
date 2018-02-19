@@ -1,25 +1,31 @@
 <?php
-    if (isset($_POST["inputEmail1"])){
-        $idRunner = $_POST["inputEmail"];
+    require_once 'db-connect.php';
+    session_start();
+    
+    if (isset($_POST["email"])){
+        $emailForm = $_POST["email"];
     }
-    if (isset($_POST["inputPassword"])){
-        $idRunner = $_POST["InputPassword"];
+    if (isset($_POST["password"])){
+        $passwordForm = $_POST["password"];
     }
 
-    try {$dbuser = 'postgres';
-    $dbpass = 'root2018';
-    $host = 'localhost';
-    $dbname='postgres';
-    $connec = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
-    }catch (PDOException $e) {
-    echo "Error : " . $e->getMessage() . "<br/>";
-    die();
-    }
-    $sql = 'SELECT fname, lname, country FROM user_details ORDER BY country';
-    foreach ($connec->query($sql) as $row) 
-    {
-    print $row['fname'] . " ";
-    print $row['lname'] . "-->";
-    print $row['country'] . "<br>";
+    $query = "SELECT * FROM employee WHERE email = '$emailForm' AND password = '$passwordForm';";
+    $result = pg_query($dbconn, $query);
+    if(pg_num_rows($result) != 1) {
+        // do error stuff
+        header('Location: index.php');
+        $_SESSION['message'] = 'Error in e-mail or password, please try it again';
+    } else {
+        // user logged in
+        $arrayResult = pg_fetch_array($result);
+        $_SESSION['user'] = $arrayResult;
+        $typeEmployee = $arrayResult['type_employee'];
+        if (strcmp($typeEmployee, 'employee')==0) {
+            header('Location: employee/index.php');
+        } else if (strcmp($typeEmployee, 'manager')==0) {
+            header('Location: manager/index.php');
+        } else if (strcmp($typeEmployee, 'admin')==0) {
+            header('Location: administrator/index.php');
+        }
     }
 ?>
