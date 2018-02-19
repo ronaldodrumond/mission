@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="en">
     <?php
-            include 'head.php';
+      include 'head.php';
     ?>
     <body>
         
         <?php
-            include 'header.php';
-            session_start();
+          include 'header.php';
+          session_start();
         ?>
         
         <div class="container">

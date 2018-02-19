@@ -8,21 +8,28 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Mission System</title>
   </head>
   <body>
 	<form method="POST" action="login.php">
 	  <div class="form-group">
-		<label for="inputEmail1">Email address</label>
-		<input type="email" class="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="Enter email">
-		<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+		<label for="inputEmail">Email address</label>
+		<input type="email" class="form-control" size="50%" id="inputEmail" name ="email" aria-describedby="emailHelp" placeholder="Enter email">
+		<?php
+			if (isset($_SESSION['message'])) {
+				echo '<small id="emailHelp" class="form-text text-muted">'.$_SESSION['message'].'</small>';
+				unset($_SESSION['message']);
+			} else {
+				echo '<small id="emailHelp" class="form-text text-muted">We will never share your email with anyone else.</small>';
+			}
+		?>
 	  </div>
 	  <div class="form-group">
 		<label for="inputPassword">Password</label>
-		<input type="password" class="form-control" id="InputPassword" placeholder="Password">
+		<input type="password" class="form-control" id="inputPassword" name="password" placeholder="Password">
 	  </div>
 	  <div class="form-check">
-		<input type="checkbox" class="form-check-input" id="exampleCheck1">
+		<input type="checkbox" class="form-check-input" id="exampleCheck">
 		<label class="form-check-label" for="check">Check me out</label>
 	  </div>
 	  <button type="submit" class="btn btn-primary">Submit</button>

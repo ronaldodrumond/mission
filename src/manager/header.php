@@ -14,4 +14,7 @@
     <li class="nav-item">
         <a class="nav-link" href="managerAccount.php">Account Settings</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="../index.php">Logout</a>
+    </li>
 </ul>

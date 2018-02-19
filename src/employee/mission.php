@@ -1,24 +1,23 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <title>Manager Mission</title>
-        <link rel="stylesheet" type="text/css" href="../css/mystyle.css">
-    </head>
+    <?php
+            include 'head.php';
+    ?>
     
     <body>
         
         <?php
             include 'header.php';
+            require_once '../db-connect.php';
+            session_start();
+            $query = "SELECT * FROM mission;";
+            $result = pg_query($dbconn, $query);
+            if (!$result) {
+                echo 'Error.\n';
+                exit;
+            }
+            //echo 'result: '.pg_fetch_array($result)[0];
+            echo pg_fetch_row($result)[status];
         ?>
         
         <div class="container">
@@ -49,6 +48,7 @@
                             <th>Purpose</th>
                             <th>Employee</th>
                             <th>Manager</th>
+                            <th>Validation</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,16 +59,22 @@
                                     <label for="checkbox1"></label>
                                 </span>
                             </td>
-                            <td>Thomas Hardy</td>
-                            <td>05/05/17</td>
-                            <td>05/12/17</td>
-                            <td>Purpose is a quite big text</td>
-                            <td>Employee Name</td>
-                            <td>Manager Name</td>
-                            <td>
-                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                            </td>
+                            <?php
+                                while ($row = pg_fetch_row($result)) {
+                                    echo $row;
+                                    echo '<td>'.$row[status].'</td>
+                                    <td>'.$row[startdate].'</td>
+                                    <td>'.$row[enddate].'</td>
+                                    <td>'.$row[purpose].'</td>
+                                    <td>'.$row[id_employee].'</td>
+                                    <td>'.$row[id_manager].'</td>
+                                    <td>'.$row[validated].'</td>
+                                    <td>
+                                        <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                        <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                    </td>';
+                                }
+                            ?>
                         </tr>
                     </tbody>
                 </table>
@@ -208,13 +214,7 @@
                 </div>
             </div>
         </div>
-    
-        <!-- Optional JavaScript --> 
-        <!-- jQuery first, then Popper.js, then Bootstrap JS --> 
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> 
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> 
-  
+
     </body>
 
 </html>

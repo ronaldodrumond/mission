@@ -15,6 +15,9 @@
         <a class="nav-link" href="mission.php">Manage Mission</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="managerAccount.php">Account Settings</a>
+        <a class="nav-link" href="administratorAccount.php">Account Settings</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="../index.php">Logout</a>
     </li>
 </ul>
